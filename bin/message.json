@@ -1,0 +1,36 @@
+lass Activity {
+    type: message
+    id: 7cJN6kUFpRm|000000000000000004
+    timestamp: 2016-12-04T10:24:22.593+01:00
+    localTimestamp: null
+    serviceUrl: https://webchat.botframework.com/
+    channelId: webchat
+    from: class ChannelAccount {
+        id: DjfTqHOy8vZ
+        name: You
+    }
+    conversation: class ConversationAccount {
+        isGroup: null
+        id: 7cJN6kUFpRm
+        name: null
+    }
+    recipient: class ChannelAccount {
+        id: TF@kjJbBBRaE2k
+        name: TurnFriendly
+    }
+    textFormat: null
+    attachmentLayout: null
+    membersAdded: []
+    membersRemoved: []
+    topicName: null
+    historyDisclosed: null
+    locale: null
+    text: world
+    summary: null
+    attachments: []
+    entities: []
+    channelData: {clientActivityId=1480839802164.38181285350877314.4}
+    action: null
+    replyToId: null
+    value: null
+}

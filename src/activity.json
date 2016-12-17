@@ -1,0 +1,43 @@
+{
+
+  "type": "message",
+
+  "id": "46jlzrebgSb|000000000000000010",
+
+  "timestamp": "2016-12-03T20:06:42.8112105Z",
+
+  "serviceUrl": "https://webchat.botframework.com/",
+
+  "channelId": "webchat",
+
+  "from": {
+
+    "id": "DjfTqHOy8vZ",
+
+    "name": "You"
+
+  },
+
+  "conversation": {
+
+    "id": "46jlzrebgSb"
+
+  },
+
+  "recipient": {
+
+    "id": "TF@kjJbBBRaE2k",
+
+    "name": "TurnFriendly"
+
+  },
+
+  "text": "menu",
+
+  "channelData": {
+
+    "clientActivityId": "1480794316490.053410793627047704.6"
+
+  }
+
+}
