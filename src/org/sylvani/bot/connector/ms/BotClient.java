@@ -11,6 +11,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
@@ -41,6 +42,7 @@ public class BotClient {
 	protected static ConversationsApi initConversationRestProxy(String url) {
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
+		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 		providers.add(provider);
 		ConversationsApi inbox = JAXRSClientFactory.create(url, ConversationsApi.class, providers);
 		return inbox;
@@ -49,6 +51,7 @@ public class BotClient {
 	protected static AuthenticationAPI initRestProxy() {
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
+		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 		providers.add(provider);
 		AuthenticationAPI inbox = JAXRSClientFactory.create(serverURL, AuthenticationAPI.class, providers);
 
