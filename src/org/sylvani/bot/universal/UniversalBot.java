@@ -1,21 +1,25 @@
 package org.sylvani.bot.universal;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IBotContext;
 import org.sylvani.bot.IConnector;
-import org.sylvani.bot.IDialog;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.connector.ms.model.Activity;
 import org.sylvani.bot.connector.ms.model.ChannelAccount;
+import org.sylvani.bot.dialogs.IDialog;
+import org.sylvani.bot.recognize.IRecognizer;
+import org.sylvani.bot.recognize.RegexpRecognizer;
 
 public class UniversalBot implements IBot {
 
-	private Deque<IDialog> stack;
+	private Logger logger = LoggerFactory.getLogger(UniversalBot.class);
+
+	private Map<IRecognizer, IDialog> dialogs;
 
 	private IConnector connector;
 
@@ -26,9 +30,9 @@ public class UniversalBot implements IBot {
 	public UniversalBot(IConnector connector) {
 		this.connector = connector;
 		this.connector.listen(this);
-		stack = new ArrayDeque<IDialog>();
-		botContext = new UniversalBotContext(this);
-		conversations = new HashMap<>();
+		this.dialogs = new HashMap<>();
+		this.botContext = new UniversalBotContext(this);
+		this.conversations = new HashMap<>();
 	}
 
 	@Override
@@ -40,31 +44,37 @@ public class UniversalBot implements IBot {
 			context = new UniversalSession(botContext);
 			conversations.put(convId, context);
 		}
-		System.out.println(activity.getType());
+		logger.debug("receive activity of  type " + activity.getType());
 		// use a recognizer
 
 		if ("message".equalsIgnoreCase(activity.getType())) {
+			findDialog(context, activity);
+		}
+	}
 
-			if (activity.getText() != null && activity.getText().matches(stack.peek().getPattern())) {
-				stack.peek().handle(context, activity);
-			} else {
-				stack.getLast().handle(context, activity);
+	private void findDialog(ISession context, Activity activity) {
+		for (IRecognizer recognizer : dialogs.keySet()) {
+			if (recognizer.recognize(context, activity) > 0) {
+				dialogs.get(recognizer).handle(context, activity);
 			}
 		}
 	}
 
-	public void add(IDialog dialog) {
-		stack.push(dialog);
+	public void add(String pattern, IDialog dialog) {
+		this.add(new RegexpRecognizer(pattern), dialog);
+	}
+
+	public void add(IRecognizer recognizer, IDialog dialog) {
+		dialogs.put(recognizer, dialog);
 	}
 
 	@Override
 	public void send(Activity activity) {
 		activity.setId(activity.getId() + "a");
 		ChannelAccount from = activity.getFrom();
-		System.out.println(activity.getFrom().getName() + " " + activity.getRecipient().getName());
 		activity.setFrom(activity.getRecipient());
 		activity.setRecipient(from);
-		System.out.println(activity.getFrom().getName() + " " + activity.getRecipient().getName());
+		logger.debug("send from " + activity.getFrom().getName() + " to " + activity.getRecipient().getName());
 		connector.send(activity);
 	}
 }
