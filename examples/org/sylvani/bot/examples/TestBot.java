@@ -19,8 +19,8 @@ public class TestBot extends UniversalBot {
 
 	public static void main(String[] args) {
 		TestBot bot = new TestBot();
-		bot.add(new EchoDialog());
-		bot.add(new HelloDialog());
+		bot.add("hello", new HelloDialog());
+		bot.add(".*", new EchoDialog());
 	}
 
 }
