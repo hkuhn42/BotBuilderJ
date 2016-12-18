@@ -3,7 +3,6 @@
  */
 package org.sylvani.bot.dialogs;
 
-import org.sylvani.bot.IDialog;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.connector.ms.model.Activity;
 
@@ -21,16 +20,6 @@ public class EchoDialog implements IDialog {
 	public void handle(ISession context, Activity activity) {
 		activity.setText("Echo " + activity.getText());
 		context.sendAsync(activity);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see test.IDialog#getPattern()
-	 */
-	@Override
-	public String getPattern() {
-		return ".*";
 	}
 
 }
