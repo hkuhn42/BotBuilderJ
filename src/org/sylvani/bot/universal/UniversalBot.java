@@ -10,7 +10,6 @@ import org.sylvani.bot.IBotContext;
 import org.sylvani.bot.IConnector;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.connector.ms.model.Activity;
-import org.sylvani.bot.connector.ms.model.ChannelAccount;
 import org.sylvani.bot.dialogs.IDialog;
 import org.sylvani.bot.recognize.IRecognizer;
 import org.sylvani.bot.recognize.RegexpRecognizer;
@@ -52,10 +51,10 @@ public class UniversalBot implements IBot {
 		}
 	}
 
-	private void findDialog(ISession context, Activity activity) {
+	private void findDialog(ISession session, Activity activity) {
 		for (IRecognizer recognizer : dialogs.keySet()) {
-			if (recognizer.recognize(context, activity) > 0) {
-				dialogs.get(recognizer).handle(context, activity);
+			if (recognizer.recognize(session, activity) > 0) {
+				dialogs.get(recognizer).handle(session, activity);
 			}
 		}
 	}
@@ -70,10 +69,6 @@ public class UniversalBot implements IBot {
 
 	@Override
 	public void send(Activity activity) {
-		activity.setId(activity.getId() + "a");
-		ChannelAccount from = activity.getFrom();
-		activity.setFrom(activity.getRecipient());
-		activity.setRecipient(from);
 		logger.debug("send from " + activity.getFrom().getName() + " to " + activity.getRecipient().getName());
 		connector.send(activity);
 	}
