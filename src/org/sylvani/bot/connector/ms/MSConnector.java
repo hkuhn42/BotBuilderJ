@@ -23,14 +23,20 @@ import org.sylvani.bot.connector.ms.model.Activity;
  */
 public class MSConnector implements IConnector {
 
-	private BotClient client;
+	private BotClient	 client;
 
-	private String address;
+	private String		 address;
 
-	public static String LOCAL_ADDRESS = "http://localhost:3978";
+	public static String LOCAL_ADDRESS = "http://localhost";
+
+	public static String LOCAL_PORT	   = "3978";
 
 	public MSConnector() {
-		this(LOCAL_ADDRESS);
+		this(LOCAL_ADDRESS + ":" + LOCAL_PORT);
+	}
+
+	public MSConnector(int port) {
+		this(LOCAL_ADDRESS + ":" + port);
 	}
 
 	public MSConnector(String address) {
