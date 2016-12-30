@@ -5,8 +5,8 @@ import java.util.Scanner;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IConnector;
 import org.sylvani.bot.connector.ms.model.Activity;
+import org.sylvani.bot.connector.ms.model.ChannelAccount;
 import org.sylvani.bot.connector.ms.model.ConversationAccount;
-import org.sylvani.bot.examples.TestBot;
 
 /**
  * Connector for development which routes console input and output to and from
@@ -16,11 +16,6 @@ import org.sylvani.bot.examples.TestBot;
  *
  */
 public class ConsoleConnector implements IConnector {
-
-	public static void main(String[] args) {
-		ConsoleConnector c = new ConsoleConnector();
-		c.listen(new TestBot());
-	}
 
 	@Override
 	public void listen(final IBot handler) {
@@ -37,11 +32,23 @@ public class ConsoleConnector implements IConnector {
 			public void listen(final IBot handler) {
 				String text = scanner.nextLine();
 				Activity activity = new Activity();
+				activity.setType("message");
 				ConversationAccount account = new ConversationAccount();
 				account.setId(String.valueOf(this.hashCode()));
 				account.setName("console");
 				activity.setConversation(account);
 				activity.setText(text);
+
+				ChannelAccount from = new ChannelAccount();
+				from.setName("shell");
+				from.setId("shell");
+				activity.setFrom(from);
+
+				ChannelAccount recipient = new ChannelAccount();
+				from.setName("bot");
+				from.setId("bot");
+				activity.setRecipient(recipient);
+
 				handler.receive(activity);
 				listen(handler);
 			}
