@@ -3,13 +3,18 @@ package org.sylvani.bot;
 import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
- * Bot specific context
+ * Bot global context (shared between all bots)
  * 
  * @author Harald Kuhn
  *
  */
 public interface IBotContext extends IContext {
 
-	public void sendAsync(Activity activity);
+	/**
+	 * Send the activity to the conversation
+	 * 
+	 * @param activity
+	 */
+	public void send(Activity activity);
 
 }
