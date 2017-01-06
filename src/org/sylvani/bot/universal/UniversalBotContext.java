@@ -9,7 +9,7 @@ import org.sylvani.bot.IBotContext;
 import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
- * @author Harald
+ * @author Harald Kuhn
  *
  */
 public class UniversalBotContext extends ContextBase implements IBotContext {
@@ -21,7 +21,7 @@ public class UniversalBotContext extends ContextBase implements IBotContext {
 	}
 
 	@Override
-	public void sendAsync(Activity activity) {
+	public void send(Activity activity) {
 		bot.send(activity);
 	}
 }

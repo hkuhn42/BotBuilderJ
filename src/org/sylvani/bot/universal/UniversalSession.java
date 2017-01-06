@@ -11,7 +11,7 @@ import org.sylvani.bot.connector.ms.model.Activity;
 /**
  * Remembers the conversation.
  * 
- * @author Harald
+ * @author Harald Kuhn
  */
 public class UniversalSession extends ContextBase implements ISession {
 
@@ -27,8 +27,8 @@ public class UniversalSession extends ContextBase implements ISession {
 	 * @see org.sylvani.bot.IConversationContext#sendAsync(java.lang.Object)
 	 */
 	@Override
-	public void sendAsync(Activity activity) {
-		botContext.sendAsync(activity);
+	public void send(Activity activity) {
+		botContext.send(activity);
 	}
 
 	@Override

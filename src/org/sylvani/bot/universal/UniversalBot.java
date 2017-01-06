@@ -14,17 +14,22 @@ import org.sylvani.bot.dialogs.IDialog;
 import org.sylvani.bot.recognize.IRecognizer;
 import org.sylvani.bot.recognize.RegexpRecognizer;
 
+/**
+ * General purpose bot implementation
+ * 
+ * @author Harald Kuhn
+ */
 public class UniversalBot implements IBot {
 
-	private Logger logger = LoggerFactory.getLogger(UniversalBot.class);
+	private Logger					  logger = LoggerFactory.getLogger(UniversalBot.class);
 
 	private Map<IRecognizer, IDialog> dialogs;
 
-	private IConnector connector;
+	private IConnector				  connector;
 
-	private IBotContext botContext;
+	private IBotContext				  botContext;
 
-	private Map<String, ISession> conversations;
+	private Map<String, ISession>	  conversations;
 
 	public UniversalBot(IConnector connector) {
 		this.connector = connector;
