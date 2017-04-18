@@ -4,9 +4,9 @@
 package org.sylvani.bot.universal;
 
 import org.sylvani.bot.ContextBase;
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IBotContext;
-import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
  * @author Harald Kuhn
@@ -21,7 +21,7 @@ public class UniversalBotContext extends ContextBase implements IBotContext {
 	}
 
 	@Override
-	public void send(Activity activity) {
+	public void send(IActivity activity) {
 		bot.send(activity);
 	}
 }

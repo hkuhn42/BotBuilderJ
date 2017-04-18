@@ -3,8 +3,9 @@
  */
 package org.sylvani.bot.util;
 
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.ISession;
-import org.sylvani.bot.connector.ms.model.Activity;
+import org.sylvani.bot.connector.GenericActivity;
 
 /**
  * Utiltiy for creating activities to prompt text to the conversation
@@ -16,34 +17,34 @@ import org.sylvani.bot.connector.ms.model.Activity;
  */
 public class Prompt {
 
-	ISession sessiont;
+	ISession session;
 
 	public Prompt(ISession session) {
-		this.sessiont = session;
+		this.session = session;
 	}
 
-	public static Activity answer(Activity inActivity) {
-		Activity activity = new Activity();
+	public static IActivity answer(IActivity inIActivity) {
+		IActivity activity = new GenericActivity();
 
-		activity.setId(inActivity.getId() + "a");
-		activity.setFrom(inActivity.getRecipient());
-		activity.setRecipient(inActivity.getFrom());
+		activity.setId(inIActivity.getId() + "a");
+		activity.setFrom(inIActivity.getRecipient());
+		activity.setRecipient(inIActivity.getFrom());
 
 		return activity;
 	}
 
-	public static Activity answer(String text, Activity inActivity) {
-		Activity activity = answer(inActivity);
+	public static IActivity answer(String text, IActivity inIActivity) {
+		IActivity activity = answer(inIActivity);
 		activity.setText(text);
 		return activity;
 	}
 
-	public static Activity choice(String text, String[] choices, Activity inActivity) {
+	public static IActivity choice(String text, String[] choices, IActivity inIActivity) {
 		StringBuilder textBuilder = new StringBuilder(text);
 		for (int i = 0; i < choices.length; i++) {
 			textBuilder.append("\n" + (i + 1) + "." + choices[i]);
 		}
-		Activity activity = answer(textBuilder.toString(), inActivity);
+		IActivity activity = answer(textBuilder.toString(), inIActivity);
 		return activity;
 	}
 

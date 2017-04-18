@@ -3,10 +3,12 @@
  */
 package org.sylvani.bot.recognize;
 
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.ISession;
-import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
+ * Basic recongizer using java regexp
+ * 
  * @author Harald Kuhn
  *
  */
@@ -21,12 +23,10 @@ public class RegexpRecognizer implements IRecognizer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.sylvani.bot.IRecognizer#match(org.sylvani.bot.connector.ms.model.
-	 * Activity)
+	 * @see org.sylvani.bot.IRecognizer#match(org.sylvani.bot.connector.ms.model. Activity)
 	 */
 	@Override
-	public double recognize(ISession session, Activity activity) {
+	public double recognize(ISession session, IActivity activity) {
 		if (activity.getText() != null && activity.getText().matches(getPattern())) {
 			return 1.0;
 		}

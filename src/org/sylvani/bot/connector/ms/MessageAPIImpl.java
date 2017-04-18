@@ -31,7 +31,7 @@ public class MessageAPIImpl implements MessageAPI {
 	@Override
 	public Response receive(String bearer, Activity message) {
 		verifier.verifyToken(bearer.replace("Bearer ", ""));
-		bot.receive(message);
+		bot.receive(new MSActivity(message));
 		return Response.ok().build();
 	}
 

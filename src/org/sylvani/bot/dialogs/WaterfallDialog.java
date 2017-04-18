@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.ISession;
-import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
  * Simple waterfall dialog subdialogs are processes in sequence
@@ -39,7 +39,7 @@ public class WaterfallDialog implements IDialog {
 	 * @see org.sylvani.bot.IHandler#handle(org.sylvani.bot.ISession, org.sylvani.bot.connector.ms.model.Activity)
 	 */
 	@Override
-	public void handle(ISession session, Activity activity) {
+	public void handle(ISession session, IActivity activity) {
 		Integer instanceState = (Integer) session.getAttribute(instanceStateKey);
 		if (instanceState == null) {
 			instanceState = new Integer(0);

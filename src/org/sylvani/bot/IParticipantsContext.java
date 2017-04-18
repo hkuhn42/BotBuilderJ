@@ -6,6 +6,6 @@ package org.sylvani.bot;
  * @author Harald Kuhn
  *
  */
-public interface IUserContext extends IContext {
+public interface IParticipantsContext extends IContext {
 
 }

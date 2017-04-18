@@ -1,7 +1,5 @@
 package org.sylvani.bot;
 
-import org.sylvani.bot.connector.ms.model.Activity;
-
 /**
  * Defines a connector to a message api or message endpoint currently console and ms apis are supported
  * 
@@ -23,5 +21,5 @@ public interface IConnector {
 	 * 
 	 * @param data
 	 */
-	public void send(Activity data);
+	public void send(IActivity data);
 }

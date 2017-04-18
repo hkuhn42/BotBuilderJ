@@ -2,15 +2,16 @@ package org.sylvani.bot.connector.console;
 
 import java.util.Scanner;
 
+import org.sylvani.bot.ActivityType;
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IConnector;
-import org.sylvani.bot.connector.ms.model.Activity;
-import org.sylvani.bot.connector.ms.model.ChannelAccount;
-import org.sylvani.bot.connector.ms.model.ConversationAccount;
+import org.sylvani.bot.connector.GenericActivity;
+import org.sylvani.bot.connector.GenericConversation;
+import org.sylvani.bot.connector.GenericParticipant;
 
 /**
- * Connector for development which routes console input and output to and from
- * the bots
+ * Connector for development which routes console input and output to and from the bots
  * 
  * @author Harald Kuhn
  *
@@ -31,20 +32,20 @@ public class ConsoleConnector implements IConnector {
 
 			public void listen(final IBot handler) {
 				String text = scanner.nextLine();
-				Activity activity = new Activity();
-				activity.setType("message");
-				ConversationAccount account = new ConversationAccount();
-				account.setId(String.valueOf(this.hashCode()));
-				account.setName("console");
-				activity.setConversation(account);
+				IActivity activity = new GenericActivity();
+				activity.setType(ActivityType.MESSAGE);
+				GenericConversation conversation = new GenericConversation();
+				conversation.setId(String.valueOf(this.hashCode()));
+				conversation.setChannel("console");
+				activity.setConversation(conversation);
 				activity.setText(text);
 
-				ChannelAccount from = new ChannelAccount();
+				GenericParticipant from = new GenericParticipant();
 				from.setName("shell");
 				from.setId("shell");
 				activity.setFrom(from);
 
-				ChannelAccount recipient = new ChannelAccount();
+				GenericParticipant recipient = new GenericParticipant();
 				from.setName("bot");
 				from.setId("bot");
 				activity.setRecipient(recipient);
@@ -58,7 +59,7 @@ public class ConsoleConnector implements IConnector {
 	}
 
 	@Override
-	public void send(final Activity data) {
+	public void send(final IActivity data) {
 		Thread t = new Thread(new Runnable() {
 
 			@Override

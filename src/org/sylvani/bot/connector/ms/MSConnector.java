@@ -12,6 +12,7 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.codehaus.jackson.map.SerializationConfig;
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IConnector;
 import org.sylvani.bot.connector.ms.model.Activity;
@@ -73,8 +74,15 @@ public class MSConnector implements IConnector {
 	 * @see org.sylvani.bot.IConnector#send(java.lang.Object)
 	 */
 	@Override
-	public void send(Activity activity) {
-		client.send(activity);
+	public void send(IActivity activity) {
+		Activity msActivity = null;
+		if (activity instanceof MSActivity) {
+			msActivity = ((MSActivity) activity).getActivity();
+		}
+		else {
+			msActivity = new Activity();
+		}
+		client.send(msActivity);
 	}
 
 }

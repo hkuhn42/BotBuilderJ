@@ -4,9 +4,9 @@
 package org.sylvani.bot.universal;
 
 import org.sylvani.bot.ContextBase;
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBotContext;
 import org.sylvani.bot.ISession;
-import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
  * Remembers the conversation.
@@ -15,7 +15,8 @@ import org.sylvani.bot.connector.ms.model.Activity;
  */
 public class UniversalSession extends ContextBase implements ISession {
 
-	private IBotContext botContext;
+	private IBotContext	botContext;
+	private boolean		typing;
 
 	protected UniversalSession(IBotContext botContext) {
 		this.botContext = botContext;
@@ -27,7 +28,7 @@ public class UniversalSession extends ContextBase implements ISession {
 	 * @see org.sylvani.bot.IConversationContext#sendAsync(java.lang.Object)
 	 */
 	@Override
-	public void send(Activity activity) {
+	public void send(IActivity activity) {
 		botContext.send(activity);
 	}
 
@@ -36,4 +37,13 @@ public class UniversalSession extends ContextBase implements ISession {
 		return botContext;
 	}
 
+	@Override
+	public void setTyping(boolean typing) {
+		this.typing = typing;
+	}
+
+	@Override
+	public boolean isTyping() {
+		return typing;
+	}
 }

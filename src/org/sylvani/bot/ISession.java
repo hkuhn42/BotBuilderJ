@@ -1,7 +1,5 @@
 package org.sylvani.bot;
 
-import org.sylvani.bot.connector.ms.model.Activity;
-
 /**
  * A bot session A session is generally created for one chat or thread (depending on the implementation) with one or
  * more other entities (usually other bots or people
@@ -15,7 +13,7 @@ public interface ISession extends IContext {
 	 * 
 	 * @param activity
 	 */
-	public void send(Activity activity);
+	public void send(IActivity activity);
 
 	/**
 	 * access the global bot context
@@ -23,5 +21,9 @@ public interface ISession extends IContext {
 	 * @return
 	 */
 	public IBotContext getBotContext();
+
+	public void setTyping(boolean b);
+
+	public boolean isTyping();
 
 }

@@ -3,8 +3,8 @@
  */
 package org.sylvani.bot.dialogs;
 
+import org.sylvani.bot.IActivity;
 import org.sylvani.bot.ISession;
-import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
  * @author hkuhn
@@ -17,9 +17,9 @@ public class HelloDialog implements IDialog {
 	 * @see test.IHandler#receive(test.IConversationContext, java.lang.Object)
 	 */
 	@Override
-	public void handle(ISession context, Activity activity) {
+	public void handle(ISession context, IActivity activity) {
 		activity.setText("Hello!");
-		context.sendAsync(activity);
+		context.send(activity);
 	}
 
 }

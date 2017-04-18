@@ -1,7 +1,5 @@
 package org.sylvani.bot;
 
-import org.sylvani.bot.connector.ms.model.Activity;
-
 /**
  * Generic handler for activities. Defines a common api for interceptors and dialogs
  * 
@@ -14,6 +12,6 @@ public interface IHandler {
 	 * @param session
 	 * @param activity
 	 */
-	void handle(ISession session, Activity activity);
+	void handle(ISession session, IActivity activity);
 
 }
