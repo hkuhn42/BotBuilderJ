@@ -13,3 +13,6 @@ Work is under way to add support for
 - more  connectors (XMPP)
 - a storage backend to keep track of chats and their participants
 - api improvements
+
+
+This is still a very young api. Expect lots of changes.
