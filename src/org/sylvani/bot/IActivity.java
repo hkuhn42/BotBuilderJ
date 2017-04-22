@@ -1,5 +1,7 @@
 package org.sylvani.bot;
 
+import java.util.List;
+
 /**
  * Defines an activity in a chat
  * 
@@ -37,4 +39,10 @@ public interface IActivity {
 	public IConversation getConversation();
 
 	public void setConversation(IConversation conversation);
+
+	public void setAttachments(List<IAttachment> attachement);
+
+	public List<IAttachment> getAttachments();
+
+	public Object getConnectorActivity();
 }

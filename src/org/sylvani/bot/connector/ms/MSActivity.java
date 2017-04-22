@@ -3,11 +3,15 @@
  */
 package org.sylvani.bot.connector.ms;
 
+import java.util.List;
+
 import org.sylvani.bot.ActivityType;
 import org.sylvani.bot.IActivity;
+import org.sylvani.bot.IAttachment;
 import org.sylvani.bot.IConversation;
 import org.sylvani.bot.IParticipant;
 import org.sylvani.bot.connector.ms.model.Activity;
+import org.sylvani.bot.connector.ms.model.Attachment;
 import org.sylvani.bot.connector.ms.model.ChannelAccount;
 
 /**
@@ -167,4 +171,20 @@ public class MSActivity implements IActivity {
 
 	}
 
+	@Override
+	public void setAttachments(List<IAttachment> attachement) {
+
+	}
+
+	@Override
+	public List<IAttachment> getAttachments() {
+		List<Attachment> attas = activity.getAttachments();
+
+		return null;
+	}
+
+	@Override
+	public Object getConnectorActivity() {
+		return activity;
+	}
 }

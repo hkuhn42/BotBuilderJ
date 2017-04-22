@@ -10,7 +10,7 @@ public class MessageController {
         
     }
     
-    public IBotContext getBotContext() {
+    public IBotConfig getBotContext() {
         return null;
     }
     

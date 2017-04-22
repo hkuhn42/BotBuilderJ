@@ -1,7 +1,6 @@
 package org.sylvani.bot;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * General purpose context
@@ -33,19 +32,5 @@ public interface IContext {
 	 * @param value
 	 */
 	public void setAttribute(String name, Object value);
-
-	/**
-	 * Get the List of in interceptors, to add an interceptor, add it to the list
-	 * 
-	 * @return the List of in interceptors
-	 */
-	public List<IInInterceptor> getInInterceptors();
-
-	/**
-	 * Get the List of out interceptors, to add an interceptor, add it to the list
-	 * 
-	 * @return the List of out interceptors
-	 */
-	public List<IOutInterceptor> getOutInterceptors();
 
 }

@@ -1,14 +1,16 @@
 package org.sylvani.bot.universal;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sylvani.bot.ActivityType;
+import org.sylvani.bot.ContextBase;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
-import org.sylvani.bot.IBotContext;
+import org.sylvani.bot.IBotConfig;
 import org.sylvani.bot.IConnector;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.dialogs.IDialog;
@@ -20,7 +22,7 @@ import org.sylvani.bot.recognize.RegexpRecognizer;
  * 
  * @author Harald Kuhn
  */
-public class UniversalBot implements IBot {
+public class UniversalBot extends ContextBase implements IBot {
 
 	private Logger					  logger = LoggerFactory.getLogger(UniversalBot.class);
 
@@ -28,7 +30,7 @@ public class UniversalBot implements IBot {
 
 	private IConnector				  connector;
 
-	private IBotContext				  botContext;
+	private IBotConfig				  botConfig;
 
 	private Map<String, ISession>	  conversations;
 
@@ -36,7 +38,6 @@ public class UniversalBot implements IBot {
 		this.connector = connector;
 		this.connector.listen(this);
 		this.dialogs = new HashMap<>();
-		this.botContext = new UniversalBotContext(this);
 		this.conversations = new HashMap<>();
 	}
 
@@ -46,7 +47,7 @@ public class UniversalBot implements IBot {
 		ISession session = conversations.get(convId);
 
 		if (session == null) {
-			session = new UniversalSession(botContext);
+			session = new UniversalSession(this);
 			conversations.put(convId, session);
 		}
 		logger.debug("receive activity of  type " + activity.getType());
@@ -81,5 +82,21 @@ public class UniversalBot implements IBot {
 	public void send(IActivity activity) {
 		logger.debug("send from " + activity.getFrom().getName() + " to " + activity.getRecipient().getName());
 		connector.send(activity);
+	}
+
+	@Override
+	public IDialog getWelcome() {
+		return null;
+	}
+
+	@Override
+	public List<IDialog> getGlobals() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IBotConfig getBotConfig() {
+		return botConfig;
 	}
 }

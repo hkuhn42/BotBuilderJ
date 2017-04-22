@@ -8,6 +8,6 @@ package org.sylvani.bot;
  * 
  * @author hkuhn
  */
-public interface IInInterceptor extends IHandler {
+public interface IInterceptor extends IHandler {
 
 }

@@ -20,7 +20,7 @@ public interface ISession extends IContext {
 	 * 
 	 * @return
 	 */
-	public IBotContext getBotContext();
+	public IBot getBot();
 
 	public void setTyping(boolean b);
 

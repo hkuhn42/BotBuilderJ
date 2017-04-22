@@ -4,9 +4,11 @@
 package org.sylvani.bot.connector;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.sylvani.bot.ActivityType;
 import org.sylvani.bot.IActivity;
+import org.sylvani.bot.IAttachment;
 import org.sylvani.bot.IConversation;
 import org.sylvani.bot.IParticipant;
 
@@ -31,6 +33,8 @@ public class GenericActivity implements Serializable, IActivity {
 	private IParticipant	  recipient;
 
 	private IConversation	  conversation;
+
+	private List<IAttachment> attachements;
 
 	/*
 	 * (non-Javadoc)
@@ -150,6 +154,21 @@ public class GenericActivity implements Serializable, IActivity {
 	@Override
 	public void setConversation(IConversation conversation) {
 		this.conversation = conversation;
+	}
+
+	@Override
+	public void setAttachments(List<IAttachment> attachement) {
+		this.attachements = attachement;
+	}
+
+	@Override
+	public List<IAttachment> getAttachments() {
+		return attachements;
+	}
+
+	@Override
+	public Object getConnectorActivity() {
+		return this;
 	}
 
 }

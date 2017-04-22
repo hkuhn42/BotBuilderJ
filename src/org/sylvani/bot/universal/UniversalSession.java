@@ -5,7 +5,7 @@ package org.sylvani.bot.universal;
 
 import org.sylvani.bot.ContextBase;
 import org.sylvani.bot.IActivity;
-import org.sylvani.bot.IBotContext;
+import org.sylvani.bot.IBot;
 import org.sylvani.bot.ISession;
 
 /**
@@ -15,11 +15,11 @@ import org.sylvani.bot.ISession;
  */
 public class UniversalSession extends ContextBase implements ISession {
 
-	private IBotContext	botContext;
-	private boolean		typing;
+	private IBot	bot;
+	private boolean	typing;
 
-	protected UniversalSession(IBotContext botContext) {
-		this.botContext = botContext;
+	protected UniversalSession(IBot bot) {
+		this.bot = bot;
 	}
 
 	/*
@@ -29,12 +29,11 @@ public class UniversalSession extends ContextBase implements ISession {
 	 */
 	@Override
 	public void send(IActivity activity) {
-		botContext.send(activity);
+
 	}
 
-	@Override
-	public IBotContext getBotContext() {
-		return botContext;
+	public IBot getBot() {
+		return bot;
 	}
 
 	@Override
