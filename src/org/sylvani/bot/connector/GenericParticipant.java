@@ -14,6 +14,16 @@ public class GenericParticipant implements IParticipant {
 	private String id;
 	private String name;
 
+	public GenericParticipant() {
+		super();
+	}
+
+	public GenericParticipant(String id, String name) {
+		this();
+		this.id = id;
+		this.name = name;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

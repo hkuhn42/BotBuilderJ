@@ -15,4 +15,6 @@ public interface IParticipant {
 
 	public void setName(String name);
 
+	// TODO add channel for routing
+
 }

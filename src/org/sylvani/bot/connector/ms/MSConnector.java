@@ -15,6 +15,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IConnector;
+import org.sylvani.bot.IParticipant;
 import org.sylvani.bot.connector.ms.model.Activity;
 
 /**
@@ -83,6 +84,24 @@ public class MSConnector implements IConnector {
 			msActivity = new Activity();
 		}
 		client.send(msActivity);
+	}
+
+	@Override
+	public IParticipant getConnectorAccount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IActivity newMessageTo(IParticipant recipientId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IActivity newAnswerTo(IActivity toThisActivity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

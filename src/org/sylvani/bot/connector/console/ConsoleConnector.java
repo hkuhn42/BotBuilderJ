@@ -6,6 +6,7 @@ import org.sylvani.bot.ActivityType;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IConnector;
+import org.sylvani.bot.IParticipant;
 import org.sylvani.bot.connector.GenericActivity;
 import org.sylvani.bot.connector.GenericConversation;
 import org.sylvani.bot.connector.GenericParticipant;
@@ -32,23 +33,9 @@ public class ConsoleConnector implements IConnector {
 
 			public void listen(final IBot handler) {
 				String text = scanner.nextLine();
-				IActivity activity = new GenericActivity();
-				activity.setType(ActivityType.MESSAGE);
-				GenericConversation conversation = new GenericConversation();
-				conversation.setId(String.valueOf(this.hashCode()));
-				conversation.setChannel("console");
-				activity.setConversation(conversation);
+
+				IActivity activity = newMessageTo(new GenericParticipant("shell", "shell"));
 				activity.setText(text);
-
-				GenericParticipant from = new GenericParticipant();
-				from.setName("shell");
-				from.setId("shell");
-				activity.setFrom(from);
-
-				GenericParticipant recipient = new GenericParticipant();
-				from.setName("bot");
-				from.setId("bot");
-				activity.setRecipient(recipient);
 
 				handler.receive(activity);
 				listen(handler);
@@ -69,6 +56,33 @@ public class ConsoleConnector implements IConnector {
 
 		});
 		t.start();
+	}
+
+	@Override
+	public IActivity newMessageTo(IParticipant recipient) {
+		IActivity activity = new GenericActivity();
+		activity.setType(ActivityType.MESSAGE);
+		GenericConversation conversation = new GenericConversation();
+		conversation.setId(String.valueOf(this.hashCode()));
+		conversation.setChannel("console");
+		activity.setConversation(conversation);
+
+		activity.setFrom(getConnectorAccount());
+
+		activity.setRecipient(new GenericParticipant());
+		activity.getRecipient().setId(recipient.getId());
+		activity.getRecipient().setName(recipient.getName());
+		return activity;
+	}
+
+	@Override
+	public IActivity newAnswerTo(IActivity toThisActivity) {
+		return newMessageTo(toThisActivity.getRecipient());
+	}
+
+	@Override
+	public IParticipant getConnectorAccount() {
+		return new GenericParticipant("shell", "shell");
 	}
 
 }

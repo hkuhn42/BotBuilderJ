@@ -3,6 +3,7 @@ package org.sylvani.bot;
 import java.util.List;
 
 import org.sylvani.bot.recognize.IRecognizer;
+import org.sylvani.bot.util.ICrypt;
 import org.sylvani.bot.util.ILocalizer;
 
 /**
@@ -17,9 +18,13 @@ public interface IBotConfig {
 
 	IRecognizer getRecognizer();
 
+	ICrypt getCrypt();
+
 	void setLocalizer(ILocalizer localizer);
 
 	void setRecognizer(IRecognizer recognizer);
+
+	void setCrypt(ICrypt crypt);
 
 	// add dev config
 
