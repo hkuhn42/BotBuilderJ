@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.sylvani.bot.examples.hello.console;
+package org.sylvani.bot.examples.hello;
 
-import org.sylvani.bot.IActivity;
-import org.sylvani.bot.ISession;
-import org.sylvani.bot.connector.console.ConsoleConnector;
-import org.sylvani.bot.dialogs.IDialog;
-import org.sylvani.bot.universal.UniversalBot;
-import org.sylvani.bot.util.Prompt;;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sylvani.bot.IConnector;
+import org.sylvani.bot.connector.telegram.TelegramConnector;
+import org.sylvani.bot.dialogs.EchoDialog;
+import org.sylvani.bot.universal.UniversalBot;;
 
 /**
  * @author Harald Kuhn
@@ -16,20 +16,15 @@ import org.sylvani.bot.util.Prompt;;
  */
 public class HelloBot extends UniversalBot {
 
-	public HelloBot() {
-		super(new ConsoleConnector());
+	private static Logger logger = LoggerFactory.getLogger(HelloBot.class);
+
+	public HelloBot(IConnector connector) {
+		super(connector);
+
+		setWelcomeDialog(new EchoDialog());
 	}
 
 	public static void main(String[] args) {
-		HelloBot bot = new HelloBot();
-
-		bot.add(".*", new IDialog() {
-
-			@Override
-			public void handle(ISession session, IActivity activity) {
-				session.send(Prompt.answer("Hello World", activity));
-			}
-		});
-
+		new HelloBot(new TelegramConnector());
 	}
 }
