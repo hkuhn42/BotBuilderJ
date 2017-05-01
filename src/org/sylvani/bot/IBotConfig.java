@@ -20,12 +20,15 @@ public interface IBotConfig {
 
 	ICrypt getCrypt();
 
+	IVariableResolver getResolver();
+
 	void setLocalizer(ILocalizer localizer);
 
 	void setRecognizer(IRecognizer recognizer);
 
 	void setCrypt(ICrypt crypt);
 
+	void setResolverf(IVariableResolver resolver);
 	// add dev config
 
 	// add secruity config
@@ -43,4 +46,13 @@ public interface IBotConfig {
 	 * @return the List of out interceptors
 	 */
 	List<IInterceptor> getOutInterceptors();
+
+	/**
+	 * get a string setting
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public String getSetting(String name);
+
 }

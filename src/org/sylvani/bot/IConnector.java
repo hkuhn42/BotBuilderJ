@@ -49,5 +49,5 @@ public interface IConnector {
 	 *            the IActivity to answer to
 	 * @return the answer IActivity
 	 */
-	public IActivity newAnswerTo(IActivity toThisActivity);
+	public IActivity newReplyTo(IActivity toThisActivity);
 }

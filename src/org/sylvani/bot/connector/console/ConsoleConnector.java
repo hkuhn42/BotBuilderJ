@@ -76,7 +76,7 @@ public class ConsoleConnector implements IConnector {
 	}
 
 	@Override
-	public IActivity newAnswerTo(IActivity toThisActivity) {
+	public IActivity newReplyTo(IActivity toThisActivity) {
 		return newMessageTo(toThisActivity.getRecipient());
 	}
 

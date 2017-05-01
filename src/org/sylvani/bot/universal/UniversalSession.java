@@ -6,7 +6,9 @@ package org.sylvani.bot.universal;
 import org.sylvani.bot.ContextBase;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
+import org.sylvani.bot.IConnector;
 import org.sylvani.bot.ISession;
+import org.sylvani.bot.dialogs.IDialog;
 
 /**
  * Remembers the conversation.
@@ -15,23 +17,22 @@ import org.sylvani.bot.ISession;
  */
 public class UniversalSession extends ContextBase implements ISession {
 
-	private IBot	bot;
-	private boolean	typing;
+	private IBot	   bot;
+	private boolean	   typing;
+	private IDialog	   dialog;
+	private IConnector connector;
 
-	protected UniversalSession(IBot bot) {
+	protected UniversalSession(IBot bot, IConnector connector) {
 		this.bot = bot;
+		this.connector = connector;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IConversationContext#sendAsync(java.lang.Object)
-	 */
 	@Override
 	public void send(IActivity activity) {
-
+		connector.send(activity);
 	}
 
+	@Override
 	public IBot getBot() {
 		return bot;
 	}
@@ -45,4 +46,39 @@ public class UniversalSession extends ContextBase implements ISession {
 	public boolean isTyping() {
 		return typing;
 	}
+
+	@Override
+	public void setActiveDialog(IDialog dialog) {
+		this.dialog = dialog;
+	}
+
+	@Override
+	public IDialog getActiveDialog() {
+		return dialog;
+	}
+
+	@Override
+	public IConnector getConnector() {
+		return connector;
+	}
+
+	@Override
+	public void activeDialogFinished() {
+		dialog = null;
+	}
+
+	@Override
+	public void invalidate() {
+		getBot().invalidate(this);
+	}
+
+	@Override
+	public String getResolvedResource(String key) {
+		String resource = getBot().getResources().getString(key);
+		if (getBot().getBotConfig().getResolver() != null) {
+			return getBot().getBotConfig().getResolver().resolveVariables(resource, this);
+		}
+		return resource;
+	}
+
 }

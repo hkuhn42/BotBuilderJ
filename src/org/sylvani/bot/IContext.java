@@ -1,6 +1,8 @@
 package org.sylvani.bot;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * General purpose context
@@ -16,14 +18,14 @@ public interface IContext {
 	 *            the name of the attribute
 	 * @return the attribute or null
 	 */
-	public Object getAttribute(String name);
+	public Serializable getAttribute(String name);
 
 	/**
 	 * Get all attributes as an iterator
 	 * 
 	 * @return an iterator of all attributes
 	 */
-	public Iterator<String> getAttributeNames();
+	public Set<String> getAttributeNames();
 
 	/**
 	 * Set an attribute in the context
@@ -31,6 +33,21 @@ public interface IContext {
 	 * @param name
 	 * @param value
 	 */
-	public void setAttribute(String name, Object value);
+	public void setAttribute(String name, Serializable value);
+
+	/**
+	 * remove the attribute
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Serializable removeAttribut(String name);
+
+	/**
+	 * get attributes as immutable map
+	 * 
+	 * @return
+	 */
+	public Map<String, Serializable> asAttributeMap();
 
 }

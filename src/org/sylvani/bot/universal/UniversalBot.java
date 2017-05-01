@@ -1,7 +1,7 @@
 package org.sylvani.bot.universal;
 
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,16 +15,21 @@ import org.sylvani.bot.IConnector;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.dialogs.IDialog;
 import org.sylvani.bot.recognize.IRecognizer;
-import org.sylvani.bot.recognize.RegexpRecognizer;
+
+import io.rincl.Rincled;
 
 /**
  * General purpose bot implementation
  * 
  * @author Harald Kuhn
  */
-public class UniversalBot extends ContextBase implements IBot {
+public class UniversalBot extends ContextBase implements IBot, Rincled {
 
 	private Logger					  logger = LoggerFactory.getLogger(UniversalBot.class);
+
+	private IDialog					  welcomeDialog;
+
+	private Map<IRecognizer, IDialog> globalCommands;
 
 	private Map<IRecognizer, IDialog> dialogs;
 
@@ -36,46 +41,72 @@ public class UniversalBot extends ContextBase implements IBot {
 
 	public UniversalBot(IConnector connector) {
 		this.connector = connector;
-		this.connector.listen(this);
 		this.dialogs = new HashMap<>();
+		this.globalCommands = new HashMap<>();
 		this.conversations = new HashMap<>();
+		try {
+			this.botConfig = new UniversalBotConfig();
+		}
+		catch (IOException e) {
+			throw new RuntimeException("config failed", e);
+		}
+		this.connector.listen(this);
 	}
 
 	@Override
 	public void receive(IActivity activity) {
 		String convId = activity.getConversation().getId();
 		ISession session = conversations.get(convId);
-
+		logger.debug("receive activity of  type " + activity.getType() + " " + activity.getText());
 		if (session == null) {
-			session = new UniversalSession(this);
+			logger.debug("new session");
+			session = new UniversalSession(this, connector);
 			conversations.put(convId, session);
 		}
-		logger.debug("receive activity of  type " + activity.getType());
-		// use a recognizer
 
 		if (ActivityType.MESSAGE == activity.getType()) {
-			session.setTyping(false);
-			findDialog(session, activity);
+			IDialog dialog = findDialog(session, activity);
+			((UniversalSession) session).setActiveDialog(dialog);
+			dialog.handle(session, activity);
 		}
+		// else {
+		// System.out.println(activity.getType());
+		// }
 		// else if ("typing".equalsIgnoreCase(activity.getType())) {
 		// session.setTyping(true);
 		// }
 	}
 
-	private void findDialog(ISession session, IActivity activity) {
-		for (IRecognizer recognizer : dialogs.keySet()) {
+	private IDialog findDialog(ISession session, IActivity activity) {
+		for (IRecognizer recognizer : globalCommands.keySet()) {
 			if (recognizer.recognize(session, activity) > 0) {
-				dialogs.get(recognizer).handle(session, activity);
+				IDialog dialog = globalCommands.get(recognizer);
+				logger.debug("delegating message to global " + dialog.getClass().getName());
+				return dialog;
 			}
 		}
+		if (session.getActiveDialog() != null) {
+			logger.debug("delegating message to active " + session.getActiveDialog().getClass().getName());
+			return session.getActiveDialog();
+		}
+
+		for (IRecognizer recognizer : dialogs.keySet()) {
+			if (recognizer.recognize(session, activity) > 0) {
+				IDialog dialog = dialogs.get(recognizer);
+				logger.debug("delegating message to " + dialog.getClass().getSimpleName());
+				return dialog;
+			}
+		}
+		logger.debug("coult not find match, delegating to welcome");
+		return welcomeDialog;
 	}
 
-	public void add(String pattern, IDialog dialog) {
-		this.add(new RegexpRecognizer(pattern), dialog);
-	}
-
-	public void add(IRecognizer recognizer, IDialog dialog) {
+	public void addDialog(IRecognizer recognizer, IDialog dialog) {
 		dialogs.put(recognizer, dialog);
+	}
+
+	public void addGlobalCommand(IRecognizer recognizer, IDialog dialog) {
+		globalCommands.put(recognizer, dialog);
 	}
 
 	@Override
@@ -84,19 +115,19 @@ public class UniversalBot extends ContextBase implements IBot {
 		connector.send(activity);
 	}
 
-	@Override
-	public IDialog getWelcome() {
-		return null;
-	}
-
-	@Override
-	public List<IDialog> getGlobals() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setWelcomeDialog(IDialog welcomeDialog) {
+		this.welcomeDialog = welcomeDialog;
 	}
 
 	@Override
 	public IBotConfig getBotConfig() {
 		return botConfig;
 	}
+
+	@Override
+	public void invalidate(ISession session) {
+		conversations.remove(session);
+	}
+
+	
 }

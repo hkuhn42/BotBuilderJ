@@ -4,22 +4,17 @@
 package org.sylvani.bot.dialogs;
 
 import org.sylvani.bot.IActivity;
-import org.sylvani.bot.ISession;
+import org.sylvani.bot.util.IModel;
+import org.sylvani.bot.util.Model;
 
 /**
  * @author hkuhn
  */
-public class EchoDialog implements IDialog {
+public class EchoDialog extends DialogBase {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see test.IHandler#receive(test.IConversationContext, java.lang.Object)
-	 */
 	@Override
-	public void handle(ISession context, IActivity activity) {
-		activity.setText("Echo " + activity.getText());
-		context.send(activity);
+	public IModel<String> getText(IActivity request) {
+		return new Model<>(request.getText());
 	}
 
 }

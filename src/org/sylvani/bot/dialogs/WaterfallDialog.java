@@ -48,7 +48,7 @@ public class WaterfallDialog implements IDialog {
 			instanceState = new Integer(0);
 		}
 		IDialog activeDialog = dialogs.get(instanceState.intValue());
-
+		session.setActiveDialog(activeDialog);
 		instanceState++;
 		session.setAttribute(instanceStateKey, instanceState);
 

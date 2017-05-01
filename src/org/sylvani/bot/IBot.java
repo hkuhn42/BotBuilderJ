@@ -1,8 +1,6 @@
 package org.sylvani.bot;
 
-import java.util.List;
-
-import org.sylvani.bot.dialogs.IDialog;
+import io.rincl.Rincled;
 
 /**
  * Defines a generic bot
@@ -17,7 +15,7 @@ import org.sylvani.bot.dialogs.IDialog;
  * 
  * @author Harald Kuhn
  */
-public interface IBot extends IContext {
+public interface IBot extends IContext, Rincled {
 
 	/**
 	 * Called for received activities
@@ -33,19 +31,12 @@ public interface IBot extends IContext {
 	 */
 	public void send(IActivity activity);
 
+	public void invalidate(ISession session);
+
 	/**
-	 * the the welcome / default dialog
+	 * Get the bots config
 	 * 
 	 * @return
 	 */
-	public IDialog getWelcome();
-
-	/**
-	 * get default dialogs
-	 * 
-	 * @return
-	 */
-	public List<IDialog> getGlobals();
-
 	public IBotConfig getBotConfig();
 }

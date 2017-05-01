@@ -99,7 +99,7 @@ public class MSConnector implements IConnector {
 	}
 
 	@Override
-	public IActivity newAnswerTo(IActivity toThisActivity) {
+	public IActivity newReplyTo(IActivity toThisActivity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
