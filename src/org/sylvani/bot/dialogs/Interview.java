@@ -16,19 +16,24 @@ import org.sylvani.bot.ISession;
  * 
  * @author Harald Kuhn
  */
-public class WaterfallDialog implements IDialog {
+public class Interview implements IDialog {
 
 	private static final String	DIALOG_STATE_PREFIX	= "WaterfallDialog";
 
 	private List<IDialog>		dialogs;
 	private String				instanceStateKey;
+	private Class				resultBean;
 
-	public WaterfallDialog() {
+	public Interview(Class resultBean) {
+		this.resultBean = resultBean;
+	}
+
+	public Interview() {
 		this.dialogs = new ArrayList<>();
 		this.instanceStateKey = DIALOG_STATE_PREFIX + "." + UUID.randomUUID().toString();
 	}
 
-	public WaterfallDialog(IDialog[] dialogs) {
+	public Interview(IDialog[] dialogs) {
 		this();
 		this.dialogs.addAll(Arrays.asList(dialogs));
 	}

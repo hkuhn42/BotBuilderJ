@@ -63,18 +63,23 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 			session = new UniversalSession(this, connector);
 			conversations.put(convId, session);
 		}
+		handle(session, activity);
 
-		if (ActivityType.MESSAGE == activity.getType()) {
-			IDialog dialog = findDialog(session, activity);
-			((UniversalSession) session).setActiveDialog(dialog);
-			dialog.handle(session, activity);
-		}
 		// else {
 		// System.out.println(activity.getType());
 		// }
 		// else if ("typing".equalsIgnoreCase(activity.getType())) {
 		// session.setTyping(true);
 		// }
+	}
+
+	@Override
+	public void handle(ISession session, IActivity activity) {
+		if (ActivityType.MESSAGE == activity.getType()) {
+			IDialog dialog = findDialog(session, activity);
+			((UniversalSession) session).setActiveDialog(dialog);
+			dialog.handle(session, activity);
+		}
 	}
 
 	private IDialog findDialog(ISession session, IActivity activity) {
@@ -129,5 +134,4 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 		conversations.remove(session);
 	}
 
-	
 }

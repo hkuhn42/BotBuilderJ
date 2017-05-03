@@ -6,6 +6,8 @@ package org.sylvani.bot.dialogs;
 import java.lang.reflect.ParameterizedType;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.util.IModel;
@@ -16,6 +18,8 @@ import org.sylvani.bot.util.ISessionModel;
  *
  */
 public abstract class Question<T> extends DialogBase {
+
+	private Logger			 logger	= LoggerFactory.getLogger(Question.class);
 
 	private IValidator<T>	 answerValidator;
 	private ISessionModel<T> answerModel;
@@ -41,24 +45,23 @@ public abstract class Question<T> extends DialogBase {
 	public void handle(ISession session, IActivity activity) {
 		T answer = null;
 		Object alreadyAsked = session.getAttribute(String.valueOf(this.hashCode()));
+		logger.debug("asked code =  " + alreadyAsked);
 		if (alreadyAsked != null) {
 			String text = activity.getText();
 			answer = findAnswer(text);
 		}
 		if (answer != null) {
-			answered(answer, session);
-
-			session.removeAttribut("asked");
-			session.activeDialogFinished();
+			answered(answer, session, activity);
 			return;
 		}
 		session.setAttribute(String.valueOf(this.hashCode()), "asked");
 		super.handle(session, activity);
 	}
 
-	protected void answered(T answer, ISession session) {
+	protected void answered(T answer, ISession session, IActivity answerActivity) {
+		session.removeAttribut("asked");
 		answerModel.setObject(answer, session);
-		session.activeDialogFinished();
+		session.activeDialogFinished(answerActivity);
 	}
 
 	protected T findAnswer(String text) {

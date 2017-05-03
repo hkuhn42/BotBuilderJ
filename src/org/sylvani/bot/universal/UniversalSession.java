@@ -68,6 +68,12 @@ public class UniversalSession extends ContextBase implements ISession {
 	}
 
 	@Override
+	public void activeDialogFinished(IActivity activity) {
+		activeDialogFinished();
+		getBot().handle(this, activity);
+	}
+
+	@Override
 	public void invalidate() {
 		getBot().invalidate(this);
 	}

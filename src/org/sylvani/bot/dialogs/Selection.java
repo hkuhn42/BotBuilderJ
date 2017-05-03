@@ -6,6 +6,7 @@ package org.sylvani.bot.dialogs;
 import java.util.List;
 
 import org.sylvani.bot.IActivity;
+import org.sylvani.bot.ISession;
 import org.sylvani.bot.util.Data;
 import org.sylvani.bot.util.ISessionModel;
 
@@ -45,9 +46,9 @@ public abstract class Selection<T> extends Question<T> {
 	}
 
 	@Override
-	protected void fillActivity(IActivity request, IActivity response) {
+	protected void fillActivity(IActivity request, IActivity response, ISession session) {
 		// FIXME: add 1. 2. 3. etc to list and also use for answer resolving
-		super.fillActivity(response, response);
+		super.fillActivity(response, response, session);
 		response.setText(response.getText() + "\n" + Data.join(", ", choices));
 	}
 }

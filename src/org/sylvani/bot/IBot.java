@@ -15,7 +15,7 @@ import io.rincl.Rincled;
  * 
  * @author Harald Kuhn
  */
-public interface IBot extends IContext, Rincled {
+public interface IBot extends IContext, IHandler, Rincled {
 
 	/**
 	 * Called for received activities

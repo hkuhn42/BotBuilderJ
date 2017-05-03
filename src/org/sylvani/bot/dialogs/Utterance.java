@@ -9,7 +9,7 @@ import org.sylvani.bot.util.IModel;
 import org.sylvani.bot.util.Model;
 
 /**
- * Basic dialog that just outputs a sentence
+ * Basic dialog that just outputs a sentence and finishes waits for the user input
  * 
  * @author Harald Kuhn
  *
@@ -26,6 +26,9 @@ public class Utterance extends DialogBase {
 		this.text = text;
 	}
 
+	protected Utterance() {
+	}
+
 	@Override
 	public void handle(ISession session, IActivity request) {
 		super.handle(session, request);
@@ -33,7 +36,7 @@ public class Utterance extends DialogBase {
 	}
 
 	@Override
-	public IModel<String> getText(IActivity request) {
+	public IModel<String> getText(IActivity request, ISession session) {
 		return text;
 	}
 

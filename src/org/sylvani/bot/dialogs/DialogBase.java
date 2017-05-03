@@ -14,7 +14,7 @@ import io.rincl.Rincled;
  */
 public abstract class DialogBase implements IDialog, Rincled {
 
-	public abstract IModel<String> getText(IActivity request);
+	public abstract IModel<String> getText(IActivity request, ISession session);
 
 	/*
 	 * (non-Javadoc)
@@ -24,12 +24,12 @@ public abstract class DialogBase implements IDialog, Rincled {
 	@Override
 	public void handle(ISession session, IActivity request) {
 		IActivity answer = session.getConnector().newReplyTo(request);
-		fillActivity(request, answer);
+		fillActivity(request, answer, session);
 		session.send(answer);
 	}
 
-	protected void fillActivity(IActivity request, IActivity response) {
-		response.setText(getText(request).getObject());
+	protected void fillActivity(IActivity request, IActivity response, ISession session) {
+		response.setText(getText(request, session).getObject());
 	}
 
 }

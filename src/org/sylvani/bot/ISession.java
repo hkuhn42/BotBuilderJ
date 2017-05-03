@@ -33,9 +33,14 @@ public interface ISession extends IContext, Rincled {
 	public IDialog getActiveDialog();
 
 	/**
-	 * finish the active dialog
+	 * finish the active dialog and wait for a new activity
 	 */
 	public void activeDialogFinished();
+
+	/**
+	 * finish the active dialog and delegate directly to the next
+	 */
+	public void activeDialogFinished(IActivity activity);
 
 	/**
 	 * invalidate this session. the session is removed from the bot and cleaned up

@@ -6,6 +6,7 @@ package org.sylvani.bot.dialogs;
 import java.util.List;
 
 import org.sylvani.bot.IActivity;
+import org.sylvani.bot.ISession;
 import org.sylvani.bot.util.IModel;
 import org.sylvani.bot.util.ISessionModel;
 import org.sylvani.bot.util.Model;
@@ -46,8 +47,8 @@ public abstract class Decision<T> extends Question<T> {
 	}
 
 	@Override
-	protected void fillActivity(IActivity request, IActivity response) {
-		super.fillActivity(request, response);
+	protected void fillActivity(IActivity request, IActivity response, ISession session) {
+		super.fillActivity(request, response, session);
 		StringBuilder builder = new StringBuilder();
 		builder.append(response.getText());
 		builder.append("\n");
