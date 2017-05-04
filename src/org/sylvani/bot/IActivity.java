@@ -44,5 +44,19 @@ public interface IActivity {
 
 	public List<IAttachment> getAttachments();
 
+	/**
+	 * Get the connector (can be used to access connector specific features)
+	 * 
+	 * @return
+	 */
 	public Object getConnectorActivity();
+
+	/**
+	 * get the Intent the recognizer detected (may be null)
+	 * 
+	 * @return
+	 */
+	public IIntent<?> getIntent();
+
+	public void setIntent(IIntent<?> intent);
 }

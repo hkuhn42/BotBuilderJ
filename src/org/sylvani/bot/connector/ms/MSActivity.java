@@ -9,6 +9,7 @@ import org.sylvani.bot.ActivityType;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IAttachment;
 import org.sylvani.bot.IConversation;
+import org.sylvani.bot.IIntent;
 import org.sylvani.bot.IParticipant;
 import org.sylvani.bot.connector.ms.model.Activity;
 import org.sylvani.bot.connector.ms.model.Attachment;
@@ -19,7 +20,9 @@ import org.sylvani.bot.connector.ms.model.ChannelAccount;
  *
  */
 public class MSActivity implements IActivity {
-	private Activity activity;
+
+	private IIntent<?> intent;
+	private Activity   activity;
 
 	MSActivity(Activity activity) {
 		this.activity = activity;
@@ -186,5 +189,15 @@ public class MSActivity implements IActivity {
 	@Override
 	public Object getConnectorActivity() {
 		return activity;
+	}
+
+	@Override
+	public IIntent<?> getIntent() {
+		return intent;
+	}
+
+	@Override
+	public void setIntent(IIntent<?> intent) {
+		this.intent = intent;
 	}
 }

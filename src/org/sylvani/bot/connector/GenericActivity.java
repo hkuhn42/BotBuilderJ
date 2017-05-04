@@ -10,6 +10,7 @@ import org.sylvani.bot.ActivityType;
 import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IAttachment;
 import org.sylvani.bot.IConversation;
+import org.sylvani.bot.IIntent;
 import org.sylvani.bot.IParticipant;
 
 /**
@@ -35,6 +36,8 @@ public class GenericActivity implements Serializable, IActivity {
 	private IConversation	  conversation;
 
 	private List<IAttachment> attachements;
+
+	private IIntent<?>		  intent;
 
 	/*
 	 * (non-Javadoc)
@@ -169,6 +172,16 @@ public class GenericActivity implements Serializable, IActivity {
 	@Override
 	public Object getConnectorActivity() {
 		return this;
+	}
+
+	@Override
+	public IIntent<?> getIntent() {
+		return intent;
+	}
+
+	@Override
+	public void setIntent(IIntent<?> intent) {
+		this.intent = intent;
 	}
 
 }
