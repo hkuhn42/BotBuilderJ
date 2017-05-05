@@ -18,15 +18,24 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  * keeps a transient copy of the key from the keystore for performance
  * 
+ * The password for the keystore and entry are always the same. It is retrieved from the system property
+ * KEYSTORE_PASSWORD
+ * 
+ * TO encrypt a value use this classes main method like this
+ * 
+ * java ... AESHelper secretText -DKEYSTORE_PASSWORD=password
+ * 
  * @author hkuhn
  */
 public class AESHelper {
 
-	static final String					   ENCODING	= "ISO-8859-1";
+	private static final String			   KEYSTORE_PASSWORD = "KEYSTORE_PASSWORD";
 
-	static final String					   KEYSTORE	= "Bot.jks";
+	static final String					   ENCODING			 = "ISO-8859-1";
 
-	static final String					   ALIAS	= "BotKey";
+	static final String					   KEYSTORE			 = "Bot.jks";
+
+	static final String					   ALIAS			 = "BotKey";
 
 	private static transient SecretKeySpec key;
 
@@ -63,7 +72,7 @@ public class AESHelper {
 			e.printStackTrace();
 		}
 
-		String password = System.getProperty("KEYSTORE_PASSWORD");
+		String password = System.getProperty(KEYSTORE_PASSWORD);
 		if (password == null || password.length() < 1) {
 			throw new NullPointerException("password for keystore:" + keystore + " was not found");
 		}
@@ -76,9 +85,14 @@ public class AESHelper {
 		return key;
 	}
 
+	/**
+	 * fixme: move to unit test
+	 * 
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
-		System.setProperty("KEYSTORE_PASSWORD", "aklsfdlj");
-		String encrypted = AESHelper.encrypt("hello world");
+		String encrypted = AESHelper.encrypt(args[0]);
 		System.out.println(encrypted);
 		String reborn = AESHelper.decrypt(encrypted);
 		System.out.println(reborn);

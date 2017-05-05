@@ -10,7 +10,13 @@ import java.security.KeyStore;
 import javax.crypto.SecretKey;
 
 /**
- * Utility
+ * Utility for managing AES Keystores for the AESCrypt implementation
+ * 
+ * can be used to generate a new keystore by
+ * 
+ * java ... AESKeystoreHelper password
+ * 
+ * This will create a java JCEKS keystore with a AES 128 Bit Key named Bot.jks
  * 
  * @author Harald Kuhn
  */
