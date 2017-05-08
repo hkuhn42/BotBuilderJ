@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.sylvani.bot.recognize.IRecognizer;
-import org.sylvani.bot.util.ICrypt;
 import org.sylvani.bot.util.ILocalizer;
 
 /**
@@ -24,6 +23,9 @@ public class BotConfig implements IBotConfig {
 	protected ICrypt			 crypt;
 
 	protected IVariableResolver	 resolver;
+	protected ISessionStore		 sessionStore;
+
+	protected IActivityArchive	 archive;
 
 	protected List<IInterceptor> inInterceptors;
 	protected List<IInterceptor> outInterceptors;
@@ -90,8 +92,27 @@ public class BotConfig implements IBotConfig {
 	}
 
 	@Override
-	public void setResolverf(IVariableResolver resolver) {
+	public void setResolver(IVariableResolver resolver) {
 		this.resolver = resolver;
 	}
 
+	@Override
+	public ISessionStore getSessionStore() {
+		return sessionStore;
+	}
+
+	@Override
+	public void setSessionStore(ISessionStore sessionStore) {
+		this.sessionStore = sessionStore;
+	}
+
+	@Override
+	public IActivityArchive getArchive() {
+		return archive;
+	}
+
+	@Override
+	public void setArchive(IActivityArchive archive) {
+		this.archive = archive;
+	}
 }
