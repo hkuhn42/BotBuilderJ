@@ -12,6 +12,11 @@ package org.sylvani.bot;
  */
 public interface IInterceptor extends IHandler {
 
-	public void init(IHandler nextInChain);
+	/**
+	 * Adds the next Handler in the chain to this interceptor
+	 * 
+	 * @param nextInChain
+	 */
+	public void chain(IHandler nextInChain);
 
 }

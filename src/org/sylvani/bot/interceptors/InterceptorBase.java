@@ -18,7 +18,7 @@ public abstract class InterceptorBase implements IInterceptor {
 	}
 
 	@Override
-	public void init(IHandler nextInChain) {
+	public void chain(IHandler nextInChain) {
 		this.nextInChain = nextInChain;
 	}
 
