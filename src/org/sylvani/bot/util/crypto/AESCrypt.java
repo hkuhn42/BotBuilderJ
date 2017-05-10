@@ -5,7 +5,7 @@ package org.sylvani.bot.util.crypto;
 
 import java.io.Serializable;
 
-import org.sylvani.bot.util.ICrypt;
+import org.sylvani.bot.ICrypt;
 
 /**
  * A {@link ICrypt} implementation using AES to encrypt and decrypt values
