@@ -3,6 +3,7 @@ package org.sylvani.bot.universal;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.sylvani.bot.IActivity;
 import org.sylvani.bot.IBot;
 import org.sylvani.bot.IBotConfig;
 import org.sylvani.bot.IConnector;
+import org.sylvani.bot.IHandler;
+import org.sylvani.bot.IInterceptor;
 import org.sylvani.bot.ISession;
 import org.sylvani.bot.dialogs.IDialog;
 import org.sylvani.bot.recognize.IRecognizer;
@@ -37,13 +40,13 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 
 	private IBotConfig				  botConfig;
 
-	private Map<String, ISession>	  conversations;
+	private Stack<IHandler>			  inInterceptorChain;
+	private Stack<IHandler>			  outInterceptorChain;
 
 	public UniversalBot(IConnector connector) {
 		this.connector = connector;
 		this.dialogs = new HashMap<>();
 		this.globalCommands = new HashMap<>();
-		this.conversations = new HashMap<>();
 		try {
 			this.botConfig = new UniversalBotConfig();
 		}
@@ -51,26 +54,44 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 			throw new RuntimeException("config failed", e);
 		}
 		this.connector.listen(this);
+
+		inInterceptorChain = new Stack<>();
+		inInterceptorChain.push(this); // the bot is the final in handler
+		if (botConfig.getArchive() != null) {
+			inInterceptorChain.push(botConfig.getArchive());
+		}
+		if (!botConfig.getInInterceptors().isEmpty()) {
+			for (IInterceptor interceptor : botConfig.getInInterceptors()) {
+				interceptor.chain(inInterceptorChain.peek());
+				inInterceptorChain.push(interceptor);
+			}
+		}
+
+		outInterceptorChain = new Stack<>();
+		outInterceptorChain.push(this); // the bot is the final out handler, too
+		if (botConfig.getArchive() != null) {
+			outInterceptorChain.push(botConfig.getArchive());
+		}
+
+		if (!botConfig.getOutInterceptors().isEmpty()) {
+			for (IInterceptor interceptor : botConfig.getOutInterceptors()) {
+				interceptor.chain(outInterceptorChain.peek());
+				outInterceptorChain.push(interceptor);
+			}
+		}
 	}
 
 	@Override
 	public void receive(IActivity activity) {
 		String convId = activity.getConversation().getId();
-		ISession session = conversations.get(convId);
+		ISession session = botConfig.getSessionStore().find(convId);
 		logger.debug("receive activity of  type " + activity.getType() + " " + activity.getText());
 		if (session == null) {
 			logger.debug("new session");
-			session = new UniversalSession(this, connector);
-			conversations.put(convId, session);
+			session = new UniversalSession(convId, this, connector);
+			botConfig.getSessionStore().add(convId, session);
 		}
 		handle(session, activity);
-
-		// else {
-		// System.out.println(activity.getType());
-		// }
-		// else if ("typing".equalsIgnoreCase(activity.getType())) {
-		// session.setTyping(true);
-		// }
 	}
 
 	@Override
@@ -131,7 +152,7 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 
 	@Override
 	public void invalidate(ISession session) {
-		conversations.remove(session);
+		botConfig.getSessionStore().remove(session);
 	}
 
 }
