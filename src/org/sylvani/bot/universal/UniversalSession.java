@@ -21,10 +21,12 @@ public class UniversalSession extends ContextBase implements ISession {
 	private boolean	   typing;
 	private IDialog	   dialog;
 	private IConnector connector;
+	private String	   id;
 
-	protected UniversalSession(IBot bot, IConnector connector) {
+	protected UniversalSession(String id, IBot bot, IConnector connector) {
 		this.bot = bot;
 		this.connector = connector;
+		this.id = id;
 	}
 
 	@Override
@@ -87,4 +89,8 @@ public class UniversalSession extends ContextBase implements ISession {
 		return resource;
 	}
 
+	@Override
+	public String getId() {
+		return id;
+	}
 }

@@ -13,6 +13,13 @@ import io.rincl.Rincled;
 public interface ISession extends IContext, Rincled {
 
 	/**
+	 * get this sessions id
+	 * 
+	 * @return
+	 */
+	String getId();
+
+	/**
 	 * send the given activity to this session (This is a convenience method to send on the connector)
 	 * 
 	 * @param activity
